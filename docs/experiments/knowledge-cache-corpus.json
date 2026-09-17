@@ -1,0 +1,29 @@
+[
+  {
+    "question": "How does ranked search keep only the best results?",
+    "answer": "insertRankedSearchResult binary-searches the insertion position using compareRankedSearchResults: ascending score, then localeCompare on tieBreaker. A nonpositive limit does nothing. Below capacity it inserts; at capacity it ignores candidates beyond the limit, otherwise inserts and pops the worst entry. Callers must supply an already sorted list within the limit.",
+    "sources": ["packages/shared/src/searchRanking.ts"],
+    "tags": ["search", "ranking", "limit"],
+    "sourceSha256": {
+      "packages/shared/src/searchRanking.ts": "9c7fcc096311ac46eac2a3b20a228999fdc6ddf26985a49f873271a54ecb5dbe"
+    }
+  },
+  {
+    "question": "How are HTTP readiness retries and timeouts bounded?",
+    "answer": "waitForHttpReady accepts 2xx responses. Defaults: 30,000 ms overall timeout, 100 ms retry interval, 1,000 ms per probe. Schedule.spaced is capped with Schedule.take(ceil(timeoutMs / intervalMs)); an outer timeout bounds the complete operation. Probe failures record the last diagnostic cause. makeError receives requestUrl, probeTimeoutMs, attempt and cause; timeout causes distinguish probe-timeout from overall-timeout. Errors already created by makeError are tracked in a WeakSet to avoid double wrapping.",
+    "sources": ["packages/shared/src/httpReadiness.ts"],
+    "tags": ["readiness", "retry", "timeout"],
+    "sourceSha256": {
+      "packages/shared/src/httpReadiness.ts": "0b65780d6c1774a109b393624763f0e970c54489b699bb31d8a8a3b9465bea93"
+    }
+  },
+  {
+    "question": "Which public environment config alias wins?",
+    "answer": "loadRepoEnv resolves public config from baseEnv, then .env.local, then .env. firstNonEmpty loops sources before alias names, trims values and skips empties. For the Clerk publishable key, alias order within one source is T3CODE_CLERK_PUBLISHABLE_KEY, VITE_CLERK_PUBLISHABLE_KEY, EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY. Thus a baseEnv VITE alias beats a .env.local T3CODE alias. The chosen key is written back to all three aliases. Returned general env values merge .env, .env.local, baseEnv before resolved public aliases are overlaid.",
+    "sources": ["scripts/lib/public-config.ts"],
+    "tags": ["environment", "precedence", "clerk", "config"],
+    "sourceSha256": {
+      "scripts/lib/public-config.ts": "7ba5d95941efa3b0fc32059758062afc419566da388e5dfef4d75ebf45acf502"
+    }
+  }
+]
