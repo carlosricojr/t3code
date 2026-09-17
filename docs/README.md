@@ -9,3 +9,4 @@
 - [Providers](./providers/codex.md)
 - [Reference](./reference/encyclopedia.md)
 - [User guides](./user/keybindings.md)
+- [Experiment: Git-aware code knowledge cache](./experiments/knowledge-cache.md)
